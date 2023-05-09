@@ -9,3 +9,5 @@ class BaseModel:
     """
     Super class for the models
     """
+
+    def __str__(self):
