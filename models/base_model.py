@@ -59,7 +59,7 @@ class BaseModel:
 
     def to_dict(self):
         """
-        Returns the my_dict dictionary containing all the keys and values of the instance
+        Returns the new_dict dictionary containing all the keys and values of the instance
         as well as the __class__, created_at, and updated_at keys
         This dictionary will be used to serialize the instance into a JSON representation
         """
