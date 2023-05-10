@@ -64,9 +64,9 @@ class BaseModel:
         This dictionary will be used to serialize the instance into a JSON representation
         """
 
-        my_dict = self.__dict__.copy()
-        my_dict["__class__"] = type(self).__name__
-        my_dict["created_at"] = my_dict["created_at"].isoformat()
-        my_dict["updated_at"] = my_dict["updated_at"].isoformat()
-        return my_dict
+        new_dict = self.__dict__.copy()
+        new_dict["__class__"] = type(self).__name__
+        new_dict["created_at"] = my_dict["created_at"].isoformat()
+        new_dict["updated_at"] = my_dict["updated_at"].isoformat()
+        return new_dict
 
