@@ -58,8 +58,16 @@ class TestBaseModel(unittest.TestCase):
             uuid.UUID(base_m.id)
         self.assertEqual(warn, str(msg.exception))
 
-    def test_base_model_no_args(self):
-        """ "Base model with no arguments. """
+    def test_base_model_instantiation(self):
+        """ "Base model test for instantiation. """
+        base_m = BaseModel()
+        self.assertEqual(str(type(base_m)), "<class 'models.base_model.BaseModel'>")
+        self.assertTrue(issubclas(type(base_m), BaseModel))
+        self.assertIsInstance(base_m, BaseModel)
+
+    def 
+
+
 
 
 
