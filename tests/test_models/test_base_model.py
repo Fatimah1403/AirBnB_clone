@@ -6,9 +6,11 @@ import time
 import os
 import json
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 import unittest
 import uuid
 import pep8
+from models import storage
 
 
 class TestBaseModel(unittest.TestCase):
@@ -61,7 +63,7 @@ class TestBaseModel(unittest.TestCase):
     def test_base_model_instantiation(self):
         """ "Base model test for instantiation. """
         base_m = BaseModel()
-        self.assertEqual(str(type(base_m)), /
+        self.assertEqual(str(type(base_m)), \
                          "<class 'models.base_model.BaseModel'>")
         self.assertTrue(issubclass(type(base_m), BaseModel))
         self.assertIsInstance(base_m, BaseModel)
