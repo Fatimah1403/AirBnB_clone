@@ -16,6 +16,8 @@ class HBNBCommand(cmd.Cmd):
     """
 
     prompt = "(hbnb)"
+    classes_allowed = ['BaseModel', 'User', 'State', 'City',
+                       'Amenity', 'Place', 'Review']
 
     def emptyline(self):
         """ method to check when an empty line is parsed """
@@ -31,6 +33,48 @@ class HBNBCommand(cmd.Cmd):
         print()
         return True
 
+    def do_create(self, line):
+        """ Create a new instance of BaseModel class """
+        command = self.parseline(line)[0]
+        if command is None or command = "":
+            print("** class name missing **")
+        elif command not in self.classes_allowed:
+            print("**classes doesn't exist**")
+        else:
+            new_obj = eval(command)()
+            new_obj.save()
+            print(new_obj.id)
+
+    def do_show(self, line):
+        """ Prints the string representation of an instance
+        based on the class name and id 
+
+        """
+
+
+
+
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
