@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-    Base model that others inherit
+    Module for class BaseModel
 """
 
 import uuid
@@ -15,7 +15,7 @@ class BaseModel:
     """
 
     def __init__(self, *args, **kwargs):
-        
+
         """
         Initializing instance attributes
         *args: varying number of arguments
@@ -59,14 +59,15 @@ class BaseModel:
 
     def to_dict(self):
         """
-        Returns the my_dict dictionary containing all the keys and values of the instance
-        as well as the __class__, created_at, and updated_at keys
-        This dictionary will be used to serialize the instance into a JSON representation
+        Returns the new_dict dictionary containing all
+        the keys and values of the instance as well as
+        the __class__, created_at, and updated_at keys
+        This dictionary will be used to serialize
+        the instance into a JSON representation
         """
 
-        my_dict = self.__dict__.copy()
-        my_dict["__class__"] = type(self).__name__
-        my_dict["created_at"] = my_dict["created_at"].isoformat()
-        my_dict["updated_at"] = my_dict["updated_at"].isoformat()
-        return my_dict
-
+        new_dict = self.__dict__.copy()
+        new_dict["__class__"] = type(self).__name__
+        new_dict["created_at"] = my_dict["created_at"].isoformat()
+        new_dict["updated_at"] = my_dict["updated_at"].isoformat()
+        return new_dict
