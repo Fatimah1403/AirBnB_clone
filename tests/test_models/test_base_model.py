@@ -18,11 +18,18 @@ class TestBaseModel(unittest.TestCase):
     """
     def setUp(self):
         """ set up test methods """
-        print("setUp")
+        pass
 
     def tearDown(self):
         """ tear down test methods """
-        print("tearDown")
+        self.adjStorage()
+
+    def adjStorage(self):
+        """ FileStorage adjustment """
+        FileStorage._FileStorage__objects = {}
+        if os.path.isfile(Filestorage._FileStorage__file_path):
+            os.remove(FileStorage._FileStorage__file_path)
+
 
     def test_base_model_pep8_working(self):
         """ Test for pep8 style whether it's working wit base model module """
@@ -65,7 +72,9 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(issubclas(type(base_m), BaseModel))
         self.assertIsInstance(base_m, BaseModel)
 
-    def 
+    def test_base_model_attributes(self):
+        """ Test for the basemodel class attributes """
+
 
 
 
