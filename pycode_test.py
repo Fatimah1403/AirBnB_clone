@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# simple python command-line interface
+# simple Python command-line interface
 # loops terminal after processing a command
 
 import sys
@@ -12,11 +12,12 @@ class HelloWorld(cmd.Cmd):
     """
 
     def do_greet(self, line):
-        print "Hello"
+        print("Hello")
 
     def do_EOF(self, line):
         return True
 
 
-if__name__ == '__main__':
-    HelloWorld()cmdloop()
+if __name__ == '__main__':
+    HelloWorld().cmdloop()
+
