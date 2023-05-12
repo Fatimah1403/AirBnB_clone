@@ -89,23 +89,28 @@ class HBNBCommand(cmd.Cmd):
                     del storage.all()[key]
                     storage.save()
 
-        def do_all(self, line):
-            """
-            Prints all string representation of all instances
-            based or not on the class name
-            """
-
-            if line != "":
-                phrase = line.split('')
-                if phrase[0] not in storage.classes():
-                    print("** class doesn't exist **")
-                else:
-                    n_list = [str(obj) for key, obj in storage.all()
-                            if type(obj).__name__ == phrase[0]]
-                    print(n_list)
+    def do_all(self, line):
+        """
+        Prints all string representation of all instances
+        based or not on the class name
+        """
+        if line != "":
+            phrase = line.split('')
+            if phrase[0] not in storage.classes():
+                print("** class doesn't exist **")
             else:
-                new_list = [str(obj) for key, obj in storage.all().items()]
-                print(new_list)
+                n_list = [str(obj) for key, obj in storage.all()
+                        if type(obj).__name__ == phrase[0]]
+                print(n_list)
+        else:
+            new_list = [str(obj) for key, obj in storage.all().items()]
+            print(new_list)
+
+    def do_update(self, line):
+        """ Updates an instance based on the class
+            name and id by adding or updating attribute
+        """
+
 
 
 
