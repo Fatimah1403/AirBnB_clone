@@ -4,6 +4,13 @@
 import datetime
 import os
 import json
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class FileStorage:
@@ -12,6 +19,16 @@ class FileStorage:
     def all(self):
         """ return the dictionary __objects """
         return Filestorage.__objects
+    
+    def classes(self):
+        """ Dictionary of all classes """
+        classes_allowed = {"BaseModel": BaseModel,
+                            "User": User,
+                            "State": State,
+                            "City": City,
+                            "Amenity": Amenity,
+                            "Place": Place,
+                            "Review": Review}
 
     def new(self, obj):
         """ sets in __objects the obj with key <obj class name>.id """
