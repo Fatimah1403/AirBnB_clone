@@ -2,6 +2,8 @@
 """ The entry point of the command interpreter """
 
 import cmd
+import models
+from datetime import datetime
 
 
 class HBNBCommand(cmd.Cmd):
@@ -48,7 +50,7 @@ class HBNBCommand(cmd.Cmd):
     def do_show(self, line):
         """
         Prints the string representation of an instance
-        based on the class name and id 
+        based on the class name and id
 
         """
 
@@ -73,11 +75,11 @@ class HBNBCommand(cmd.Cmd):
         command to delete an instance specified
         """
 
-        if line == "" or line is None
+        if line == "" or line is None:
             print("** class name missing **")
         else:
             phrase = line.split('')
-            if phrase[0] not in storage.all()
+            if phrase[0] not in storage.all():
                 print("** class doesn't exist **")
             elif len(phrase) < 2:
                 print("** instance id missing **")
@@ -100,7 +102,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
             else:
                 n_list = [str(obj) for key, obj in storage.all()
-                        if type(obj).__name__ == phrase[0]]
+                          if type(obj).__name__ == phrase[0]]
                 print(n_list)
         else:
             new_list = [str(obj) for key, obj in storage.all().items()]
@@ -110,31 +112,44 @@ class HBNBCommand(cmd.Cmd):
         """ Updates an instance based on the class
             name and id by adding or updating attribute
         """
+        phrase = shlex.split(line)
+        phrase_size = len(phrase)
+        if phrase_size == 0:
+            print("** class name missing **")
+        elif phrase[0] not in self.classes_allowed:
+            print("** class doesn't exist **")
+        elif phrase_size == 1:
+            print("** instance id missing **")
+        else:
+            key = phrase[0] + '-' + phrase[1]
+            inst_data = models.storage.all().get(key)
+            if inst_data is None:
+                print("** no instance found **")
+            elif phrase_size == 2:
+                print("** attribute name missing **")
+            elif phrase_size == 3:
+                print("** value missing **")
+            else:
+                phrase[3] = self.analy_parameter_value(phrase[3])
+                setattr(inst_data, phrase[2], phrase[3])
+                setattr(inst_data, 'updated_at', datetime.now())
+                models.storage.save()
+
+    def analy_parameter_value(self, value):
+        """Check a parameter value for an update
+            Analyze if a parameter is a string that needs
+            to be converted to a float or an integer number.
+
+            Args:
+                value: The value to analze
+        """
+        if value.isdigit():
+            return int(value)
+        elif value.replace('.', '', 1).isdigit():
+            return float(value)
+
+        return value
 
 
-
-
-
-
-if __name__ == '__main__'
+if __name__ == '__main__':
     HBNBCommand().cmdloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
