@@ -19,16 +19,60 @@ class FileStorage:
     def all(self):
         """ return the dictionary __objects """
         return Filestorage.__objects
-    
+
     def classes(self):
         """ Dictionary of all classes """
-        classes_allowed = {"BaseModel": BaseModel,
-                            "User": User,
-                            "State": State,
-                            "City": City,
-                            "Amenity": Amenity,
-                            "Place": Place,
-                            "Review": Review}
+        classes_allowed = {
+                "BaseModel": BaseModel,
+                "User": User,
+                "State": State,
+                "City": City,
+                "Amenity": Amenity,
+                "Place": Place,
+                "Review": Review}
+
+    def attributes(self):
+        """ Attributes and their classnames"""
+        attributes = {
+                "BaseModel": {
+                    "id": str,
+                    "created_at": datetime.datetime,
+                    "updated_at": datetime.datetime},
+                "User": {
+                    "email": str,
+                    "password": str,
+                    "first_name": str,
+                    "last_name": str},
+
+                "State": {
+                    "name": str},
+
+                "City": {
+                    "state_id": str,
+                    "name": str},
+
+                "Amenity": {
+                    "name": str},
+
+                "Place": {
+                    "city_id": str,
+                    "user_id": str,
+                    "name": str,
+                    "description": str,
+                    "number_rooms": int,
+                    "number_bathrooms": int,
+                    "max_guest": int,
+                    "price_by_night": int,
+                    "latitude": float,
+                    "longitude": float,
+                    "amenity_ids": list},
+
+                "Review": {
+                    "place_id": str,
+                    "user_id": str,
+                    "text": str}
+        }
+        return attributes
 
     def new(self, obj):
         """ sets in __objects the obj with key <obj class name>.id """
