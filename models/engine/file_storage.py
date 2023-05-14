@@ -2,7 +2,7 @@
 """ Filestorage class """
 
 import datetime
-import os
+from os import path
 import json
 from models.base_model import BaseModel
 from models.user import User
