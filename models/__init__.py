@@ -6,5 +6,5 @@ Loads any existing data from disk into memory using reload()
 """
 from models.engine import file_storage
 
-storage = FileStorage()
+storage = file_storage.FileStorage()
 storage.reload()
