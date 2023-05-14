@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """ The entry point of the command interpreter """
 
+from models.engine.file_storage import FileStorage
+import sys
 import cmd
 """ import models """
 from datetime import datetime
