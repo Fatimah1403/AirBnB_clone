@@ -18,7 +18,7 @@ class FileStorage:
 
     def all(self):
         """ return the dictionary __objects """
-        return Filestorage.__objects
+        return FileStorage.__objects
 
     def classes(self):
         """ Dictionary of all classes """
