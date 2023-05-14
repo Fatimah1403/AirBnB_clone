@@ -4,7 +4,7 @@ Initializes the package and storage system for
 Reloads FileStorage contents
 Loads any existing data from disk into memory using reload()
 """
-from models.engine.file_storage import FileStorage
+from engine.file_storage import FileStorage
 
 storage = FileStorage()
 storage.reload()
