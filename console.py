@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 """ The entry point of the command interpreter """
 
-""" import models """
-import cmd
 import sys
+import cmd
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 from datetime import datetime
@@ -48,13 +47,12 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, line):
         """ Create a new instance of BaseModel class """
-        command = self.parseline(line)[0]
-        if command is None or command == "":
+        if len(line) == 0:
             print("** class name missing **")
-        elif command not in self.classes_allowed:
+        elif line not in HBNBCommand.classes_allowed:
             print("**classes doesn't exist**")
         else:
-            new_obj = eval(command)()
+            new_obj = HBNBCommand.classes_allowed[line]()
             new_obj.save()
             print(new_obj.id)
 
@@ -65,130 +63,103 @@ class HBNBCommand(cmd.Cmd):
 
         """
 
-        command = self.parseline(line)[0]
-        phrase = self.parseline(line)[1]
-
-        if command == "" or command is None:
+        command = line.split(" ")
+        if len(line) == 0:
             print("** class name missing **")
-        elif command not in self.classes_allowed:
+            return
+        elif command[0] not in HBNBCommand.classes_allowed:
             print("** class doesn't exist **")
-        elif phrase == '':
+            return
+        elif len(command) == 1:
             print("** instance id missing **")
+            return
         else:
-            inst_data = storage.all().get(command + '.' + phrase)
-            if inst_data is None:
+            inst_data = command[0] + "." + command[0]
+            allowed_instances = storage.all()
+            if inst_data not in allowed_instances:
                 print("** no instance found **")
             else:
-                print(inst_data)
+                obj = allowed_instances[inst_data]
+                print(obj)
 
     def do_destroy(self, line):
         """
         command to delete an instance specified
         """
 
-        if line == "" or line is None:
+        command = line.split(" ")
+        if len(line) == 0:
             print("** class name missing **")
+            return
+        elif command[0] not in HBNBCommand.allowed_classes:
+            print("** class doesn't exist **")
+            return
+        elif len(command) < 2:
+            print("** instance id missing **")
+            return
         else:
-            phrase = line.split('')
-            if phrase[0] not in storage.all():
-                print("** class doesn't exist **")
-            elif len(phrase) < 2:
-                print("** instance id missing **")
+            key = command[0] + "." + command[1]
+            allowed_instances = storage.all()
+            if key not in allowed_instances:
+                print("** no instance found **")
             else:
-                key = "{}.{}".format(phrase[0], phrase[1])
-                if key not in storage.all():
-                    print("** no instance found **")
-                else:
-                    del storage.all()[key]
-                    storage.save()
+                del (allowed_instances[key])
+                storage.save()
 
     def do_all(self, line):
         """
         Prints all string representation of all instances
         based or not on the class name
         """
-        if line != "":
-            phrase = line.split('')
-            if phrase[0] not in storage.classes():
-                print("** class doesn't exist **")
+
+        n_list = []
+        all_inst = storage.all()
+        try:
+            if len(line) != 0:
+                eval(line)
             else:
-                n_list = [str(obj) for key, obj in storage.all()
-                          if type(obj).__name__ == phrase[0]]
+                pass
+        except NameError:
+            print("** class doesn't exist **")
+            return
+        line.strip()
+        for key, val in all_inst.items():
+            if len(line) != 0:
+                if type(val) is eval(line):
+                    val = str(all_inst[key])
+                    n_list.append(val)
+            else:
+                val = str(all_inst[key])
+                n_list.append(val)
                 print(n_list)
-        else:
-            new_list = [str(obj) for key, obj in storage.all().items()]
-            print(new_list)
 
     def do_update(self, line):
         """ Updates an instance based on the class
             name and id by adding or updating attribute
         """
-        phrase = shlex.split(line)
-        phrase_size = len(phrase)
-        if phrase_size == 0:
+        n_list = line.split(" ")
+        if len(line) == 0:
             print("** class name missing **")
-        elif phrase[0] not in self.classes_allowed:
+            return
+        elif n_list[0] not in HBNBCommand.allowed_classes:
             print("** class doesn't exist **")
-        elif phrase_size == 1:
+            return
+        elif len(n_list) == 1:
             print("** instance id missing **")
+            return
+        elif len(n_list) == 2:
+            print("**attribute name missing**")
+        elif len(n_list) == 3:
+            print("**value missing**")
         else:
-            key = phrase[0] + '-' + phrase[1]
-            inst_data = models.storage.all().get(key)
-            if inst_data is None:
+            key = n_list[0] + "." + n_list[1]
+            allowed_instances = storage.all()
+            if key not in allowed_instances:
                 print("** no instance found **")
-            elif phrase_size == 2:
-                print("** attribute name missing **")
-            elif phrase_size == 3:
-                print("** value missing **")
             else:
-                phrase[3] = self.analy_parameter_value(phrase[3])
-                setattr(inst_data, phrase[2], phrase[3])
-                setattr(inst_data, 'updated_at', datetime.now())
-                models.storage.save()
-
-    def analy_parameter_value(self, value):
-        """Check a parameter value for an update
-            Analyze if a parameter is a string that needs
-            to be converted to a float or an integer number.
-
-            Args:
-                value: The value to analze
-        """
-        if value.isdigit():
-            return int(value)
-        elif value.replace('.', '', 1).isdigit():
-            return float(value)
-
-        return value
-
-    def get_objects(self, instance=''):
-        """Gets the elements created by the console
-
-        This method takes care of obtaining the information
-        of all the instances created in the file `objects.json`
-        that is used as the storage engine.
-
-        When an instance is sent as an argument, the function
-        takes care of getting only the instances that match the argument.
-
-        Args:
-            instance (:obj:`str`, optional): The instance to finds into
-                the objects.
-
-        Returns:
-            list: If the `instance` argument is not empty, it will search
-            only for objects that match the instance. Otherwise, it will show
-            all instances in the file where all objects are stored.
-
-        """
-        objects = models.storage.all()
-
-        if instance:
-            keys = objects.keys()
-            return [str(val) for key, val in objects.items()
-                    if key.startswith(instance)]
-
-        return [str(val) for key, val in objects.items()]
+                obj = allowed_instances[key]
+                setattr(obj, n_list[2], n_list[3])
+                storage.save()
 
     def default(self, line):
         """
