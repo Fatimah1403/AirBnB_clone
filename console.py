@@ -46,6 +46,7 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, line):
+        self.line = int(line)
         """ Create a new instance of BaseModel class """
         if len(line) == 0:
             print("** class name missing **")
@@ -175,7 +176,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             args = line.split('.')
             word_args = args[0]
-            if word_args in HBNBCommand.allowed_classes:
+            if word_args in HBNBCommand.classes_allowed:
                 if len(args) == 2:
                     if args[1] == "all()":
                         HBNBCommand.do_all(self, word_args)
