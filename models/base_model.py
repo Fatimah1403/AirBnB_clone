@@ -7,7 +7,7 @@ import uuid
 from uuid import uuid4
 from datetime import datetime
 import models
-""" from engine.file_storage import FileStorage """
+from models import FileStorage
 
 
 class BaseModel:
