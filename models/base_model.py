@@ -3,9 +3,10 @@
     Module for class BaseModel
 """
 
-import uuid
+from uuid import uuid4
 from datetime import datetime
-from engine.file_storage import FileStorage
+import models
+""" from engine.file_storage import FileStorage """
 
 
 class BaseModel:
