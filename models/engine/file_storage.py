@@ -16,6 +16,9 @@ from models.review import Review
 class FileStorage:
     """ class for storing and receiving data for the project """
 
+    __file_path = "file.json"
+    __objects = {}
+
     def all(self):
         """ return the dictionary __objects """
         return FileStorage.__objects
@@ -76,13 +79,13 @@ class FileStorage:
 
     def new(self, obj):
         """ sets in __objects the obj with key <obj class name>.id """
-        k = "{}.{}".format(type(obj).__name__, obj.id)
+        k = obj.__class__.__name__ + '-' + str(obj.id)
         FileStorage.__objects[k] = obj
 
     def save(self):
         """  serializes __objects to the JSON file (path: __file_path) """
         n_dictionary = {}
-        for key, value in FileStorage.__objects.items():
+        for key, value in self.__objects.items():
             n_dictionary[key] = value.to_dict()
             """ open file in write mode,
             if the file does not exist, it's created
@@ -95,8 +98,11 @@ class FileStorage:
         the JSON file (__file_path) exists ; otherwise,
         do nothing. If the file doesn’t exist, no exception should be raised)
         """
-        if path.exists(self.__file_path):
-            with open(self.__file_path, "r", encoding='utf-8') as f:
-                json_dict = json.loads(f.read())
+        try:
+            with open(FileStorage.__file_path, "r", encoding='utf-8') as f:
+                json_dict = json.load(f)
                 for k, v in json_dict.items():
-                    self.__objects[k] = eval(v['__class__'])(**v)
+                    base_file = FileStorage.classes[v["__class__"]](**v)
+                    FileStorage.__objects[k] = base_file
+        except FileNotFoundError:
+            pass

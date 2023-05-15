@@ -170,22 +170,74 @@ class HBNBCommand(cmd.Cmd):
         class exists and the method belongs to the class.
 
         """
-        if '.' in line:
-            splitted = re.split(r'\.|\(|\)', line)
-            class_name = splitted[0]
-            method_name = splitted[1]
+        if len(line) == 0:
+            return
+        else:
+            args = line.split('.')
+            word_args = args[0]
+            if word_args in HBNBCommand.allowed_classes:
+                if len(args) == 2:
+                    if args[1] == "all()":
+                        HBNBCommand.do_all(self, word_args)
+                    elif args[1] == "count()":
+                        print((HBNBCommand.instance_count(self, word_args)))
+                    elif str(args[1])[:4] == "show":
+                        string = args[1]
+                        c_id = string[6:-2]
+                        l_ine = str(word_args) + " " + str(c_id)
+                        HBNBCommand.do_show(self, l_ine)
+                    elif str(args[1])[:7] == "destroy":
+                        string = args[1]
+                        c_id = string[9:-2]
+                        l_ine = str(word_args) + " " + str(c_id)
+                        HBNBCommand.do_destroy(self, l_ine)
+                    elif str(args[1])[:6] == "update":
+                        a_slc = args[1][7:-1]
+                        my_list = a_slc.split(", ")
+                        _id = my_list[0][1:-1]
+                        if type(my_list[1]) == dict:
+                            for att, val in my_list[1].items():
+                                l_att = word_args + " " + _id + " " + att + val
+                                HBNBCommand.do_update(self, l_att)
+                        else:
+                            if my_list[2][0] == '"' and my_list[2][-1] == '"':
+                                val = my_list[2][1:-1]
+                            else:
+                                val = my_list[2]
+                            if my_list[1][0] == '"' and my_list[1][-1] == '"':
+                                attr = my_list[1][1:-1]
+                            else:
+                                attr = my_list[1]
+                            l_att = str(word_args + " " + _id + " " + attr +
+                                        " " + val)
+                            HBNBCommand.do_update(self, l_att)
+                    else:
+                        pass
+                else:
+                    print("Try: {}.all() or all {}".format(args[0], args[0]))
+            else:
+                print("*** Unknown syntax: {}".format(line))
+                return
 
-            if class_name in self.classes_allowed:
-                if method_name == 'all':
-                    print(self.get_objects(class_name))
-                elif method_name == 'count':
-                    print(len(self.get_objects(class_name)))
-                elif method_name == 'show':
-                    class_id = splitted[2][1:-1]
-                    self.do_show(class_name + ' ' + class_id)
-                elif method_name == 'destroy':
-                    class_id = splitted[2][1:-1]
-                    self.do_destroy(class_name + ' ' + class_id)
+    def do_count(self, line):
+        """ counts and prints the instances of a class """
+
+        counts = 0
+        n_list = []
+        all_list = []
+        allowed_instances = storage.all()
+        if line == "":
+            for k, obj in allowed_instances.items():
+                all_list.append(str(obj))
+                counts = counts + 1
+            return(counts)
+        elif line in HBNBCommand.allowed_classes:
+            for k, v in allowed_instances.items():
+                if line == v.__class__.__name__:
+                    keys = line + "." + str(v.id)
+                    n_list.append(allowed_instances[keys])
+                    counts = counts + 1
+            return(counts)
 
 
 if __name__ == '__main__':
