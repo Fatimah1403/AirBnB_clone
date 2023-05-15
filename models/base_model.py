@@ -68,6 +68,6 @@ class BaseModel:
 
         new_dict = self.__dict__.copy()
         new_dict["__class__"] = type(self).__name__
-        new_dict["created_at"] = my_dict["created_at"].isoformat()
-        new_dict["updated_at"] = my_dict["updated_at"].isoformat()
+        new_dict["created_at"] = new_dict["created_at"].isoformat()
+        new_dict["updated_at"] = new_dict["updated_at"].isoformat()
         return new_dict
