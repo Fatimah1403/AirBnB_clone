@@ -1,59 +1,52 @@
 #!/usr/bin/python3
-""" Testing for amenity class"""
+"""Unittest module for the Amenity Class."""
 
 import unittest
-import os
-from models.base_model import BaseModel
+from datetime import datetime
+import time
 from models.amenity import Amenity
+import re
+import json
 from models.engine.file_storage import FileStorage
+import os
+from models import storage
+from models.base_model import BaseModel
 
 
 class TestAmenity(unittest.TestCase):
-    """ Amenity class that inherits from BaseModel"""
-    amn = Amenity()
+
+    """Test Cases for the Amenity class."""
 
     def setUp(self):
-        """set up the
-        test for testing amenities"""
-        FileStorage._FileStorage__file_path = "test.json"
-        self.amenity = Amenity()
-        self.amenity.name = "pool"
-        self.amenity.save()
-
-    def test_instance_User(self):
-        """ Test subclasses of BaseModel """
-        self.assertIsInstance(self.amn, Amenity)
-
-    def testpublic(self):
-        """Test for public id """
-        self.assertEqual(str, type(Amenity().id))
-
-    def test_if_class_exists(self):
-        """tests if class exists"""
-        res = "<class 'models.amenity.Amenity'>"
-        self.assertEqual(str(type(self.amn)), res)
-
-    def test_attribute_name(self):
-        """ Check attributes name """
-        self.assertEqual(hasattr(self.amn, "name"), True)
-
-    def test_atrr_type_Amenity(self):
-        """test attribute type for Amenity"""
-        self.assertEqual(type(self.amenity.name), str)
-
-    def testHasAttributes(self):
-        """verify if attributes exist"""
-        self.assertTrue(hasattr(self.amenity, 'id'))
-        self.assertTrue(hasattr(self.amn, 'name'))
-        self.assertTrue(hasattr(self.amn, 'created_at'))
-        self.assertTrue(hasattr(self.amenity, 'updated_at'))
-
-    def test_public_state(self):
-        """ Test if state is public"""
-        self.assertEqual(str, type(State().id))
+        """Sets up test methods."""
+        pass
 
     def tearDown(self):
-        os.remove(FileStorage._FileStorage__file_path)
+        """Tears down test methods."""
+        self.resetStorage()
+        pass
+
+    def resetStorage(self):
+        """Resets FileStorage data."""
+        FileStorage._FileStorage__objects = {}
+        if os.path.isfile(FileStorage._FileStorage__file_path):
+            os.remove(FileStorage._FileStorage__file_path)
+
+    def test_8_instantiation(self):
+        """Tests instantiation of Amenity class."""
+
+        b = Amenity()
+        self.assertEqual(str(type(b)), "<class 'models.amenity.Amenity'>")
+        self.assertIsInstance(b, Amenity)
+        self.assertTrue(issubclass(type(b), BaseModel))
+
+    def test_8_attributes(self):
+        """Tests the attributes of Amenity class."""
+        attributes = storage.attributes()["Amenity"]
+        o = Amenity()
+        for k, v in attributes.items():
+            self.assertTrue(hasattr(o, k))
+            self.assertEqual(type(getattr(o, k, None)), v)
 
 
 if __name__ == "__main__":

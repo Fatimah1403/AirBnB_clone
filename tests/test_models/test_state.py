@@ -1,48 +1,52 @@
 #!/usr/bin/python3
-"""Test State class """
+""" Testing for clasaa state """
 
 import unittest
-from models.base_model import BaseModel
-from models.engine.file_storage import FileStorage
+from datetime import datetime
+import time
 from models.state import State
+import re
+import json
+from models.engine.file_storage import FileStorage
 import os
+from models import storage
+from models.base_model import BaseModel
 
 
 class TestState(unittest.TestCase):
-    """ Testing the state class"""
+
+    """Test Cases for the State class."""
 
     def setUp(self):
-        """ Set up method """
-        FileStorage._FileStorage__file_path = "test.json"
-        self.state = State()
-        self.state.name = "New York"
-        self.state.save()
-
-    def test_name_is_string(self):
-        """ Testing if name is a string"""
-        self.assertTrue(type(self.state.name), is str)
-
-    def test_docstring_state(self):
-        """ test for docstrings """
-        self.assertIsNotNone(State.__doc__)
-
-    def test_to_dict_state(self):
-        """ Test if state to dicionary work"""
-        self.assertEqual('to_dict' in dir(self.state), True)
-
-    def test_public_state(self):
-        """ Test if state is public"""
-        self.assertEqual(str, type(State().id))
-
-    def testHasAttributes(self):
-        """verify if attributes exist"""
-        self.assertTrue(hasattr(self.state, 'name'))
-        self.assertTrue(hasattr(self.state, 'id'))
-        self.assertTrue(hasattr(self.state, 'created_at'))
-        self.assertTrue(hasattr(self.state, 'updated_at'))
+        """Sets up test methods."""
+        pass
 
     def tearDown(self):
-        os.remove(FileStorage._FileStorage__file_path)
+        """Tears down test methods."""
+        self.resetStorage()
+        pass
+
+    def resetStorage(self):
+        """Resets FileStorage data."""
+        FileStorage._FileStorage__objects = {}
+        if os.path.isfile(FileStorage._FileStorage__file_path):
+            os.remove(FileStorage._FileStorage__file_path)
+
+    def test_8_instantiation(self):
+        """Tests instantiation of State class."""
+
+        b = State()
+        self.assertEqual(str(type(b)), "<class 'models.state.State'>")
+        self.assertIsInstance(b, State)
+        self.assertTrue(issubclass(type(b), BaseModel))
+
+    def test_8_attributes(self):
+        """Tests the attributes of State class."""
+        attributes = storage.attributes()["State"]
+        o = State()
+        for k, v in attributes.items():
+            self.assertTrue(hasattr(o, k))
+            self.assertEqual(type(getattr(o, k, None)), v)
 
 
 if __name__ == "__main__":
