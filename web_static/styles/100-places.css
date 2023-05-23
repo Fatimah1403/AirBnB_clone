@@ -1,0 +1,138 @@
+.places {
+	text-align: center;
+}
+.places h1 {
+	text-align: left;
+	font-size: 30px;
+}
+.places article {
+	width: 390px;
+	padding: 20px;
+	margin: 20px;
+	border: 1px solid #FF5A5F;
+	border-radius: 4px;
+	display: inline-block;
+}
+article h2 {
+	font-size: 30px;
+	text-align: center;
+}
+
+/* design for article continues, 8-index.html*/
+
+.price_by_night {
+	color: #FF5A5F;
+	border: 4px solid #FF5A5F;
+	min-width: 60px;
+	height: 60px;
+	font-size: 30px;
+	top: -80px;
+	float: right;
+	position: relative;
+	line-height: 60px;
+}
+.information {
+	height: 80px;
+	border-top: 1px solid #DDDDDD;
+	border-bottom: 1px solid #DDDDDD;
+
+}
+.max_guest,
+.number_rooms,
+.number_bathrooms {
+	width: 100px;
+	background-repeat: no-repeat;
+	height: 100%;
+	line-height: 140px;
+	display: inline-block;
+	background-position: 50% 5px;
+}
+.max_guest {
+	background-image: url("../images/icon_group.png");
+}
+.number_rooms {
+  background-image: url("../images/icon_bed.png");
+}
+.number_bathrooms {
+  background-image: url("../images/icon_bath.png");
+}
+
+.user,
+.description {
+	margin-bottom: 10px;
+	margin-top: 10px;
+	text-align: left;
+}
+
+/* Amenities and Review updates*/
+
+article div.amenities,
+.reviews {
+	margin-top: 40px;
+	width: 100%;
+}
+article div.amenities h2,
+.reviews h2 {
+	font-size:16px;
+	border-bottom: 1px solid #DDDDDD;
+	text-align: left;
+	padding-left: 10px;
+}
+
+article div.amenities ul,
+.reviews ul {
+	padding: 0px;
+	display: block;
+}
+
+article div.amenities ul li,
+.reviews ul li {
+	list-style: none;
+}
+article div.amenities ul li {
+	height: 25px;
+	width:25px;
+	background-size: cover;
+	background-position: center left;
+	background-repeat: no-repeat;
+}
+div.amenities ul li.tv {
+	background-image: url(../images/icon_tv.png);
+}
+
+div.amenities ul li.wifi {
+	background-image: url(../images/icon_wifi.png);
+}
+div.amenities ul li.pet {
+	background-image: url(../images/icon_pets.png);
+}
+.reviews ul li h3 {
+	font-size: 14px;
+}
+div.reviews ul li p , article div.amenities ul li p {
+        font-size: 12px;
+}
+div.amenities ul li p {
+        width: 100px;
+        margin-left: 40px;
+        padding-top: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
